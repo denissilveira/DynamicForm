@@ -25,7 +25,7 @@ Requires:
 Install the ojdbc dependencie in your repository:
 
 ```sh
-$ mvn install:install-file -Dfile={YOUR_PATH/ojdbc8.jar} -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=12.2.0.1 -Dpackaging=jar
+$ mvn install:install-file -Dfile={YOUR_PATH/ojdbc7.jar} -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.1 -Dpackaging=jar
 ```
 
 ### Docker (Pending)
