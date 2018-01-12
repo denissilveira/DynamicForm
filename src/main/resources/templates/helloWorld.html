@@ -1,19 +1,116 @@
-<!DOCTYPE HTML>
-<html lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymleaf.org">
+<!doctype html>
+<html lang="en">
 <head>
-<title>HELLO WORLD</title>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous" ></link>
+
+    <title>Hello, world!</title>
 </head>
 <body>
-	<div class="container">
-		<div class="starter-template">
-			<h1>HELLO WORLD </h1>
-		</div>
 
-	</div>
+<form id="main">
+</form>
+
+<script id="mainTmpl" type="text/x-jsrender">
+    <h1>{{:name}}</h1>
+  {{for groups}}
+    <h2>{{:name}}</h2>
+    <div class="form-group">
+      {{for fields}}
+        {{include tmpl='#'+type.type+'Tmpl'/}}
+      {{/for}}
+    </div>
+  {{/for}}
+</script>
+
+
+<script id="inputTmpl" type="text/x-jsrender">
+<label for="">{{:fname}}</label>
+<input type="{{:type.subtype}}" class="form-control" id="formGroupExampleInput2" placeholder="Another input" value="{{:fvalue}}">
+</script>
+
+<script id="buttonTmpl" type="text/x-jsrender">
+<button>{{:fname}}</button>
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+        integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+        crossorigin="anonymous"></script>
+
+<script>
+    var jsonp = {
+        "id": 1,
+        "name": "Hello World",
+        "version": 1,
+        "groups": [{
+            "id": 1,
+            "name": "Hello World Group",
+            "fields": [{
+                "id": 1,
+                "type": {"id": 1, "type": "input", "subtype": "password"},
+                "fname": "password",
+                "flabel": "Password",
+                "fvalue": "Password",
+                "fshow": true,
+                "frequired": true
+            }, {
+                "id": 1,
+                "type": {"id": 1, "type": "input", "subtype": "text"},
+                "fname": "Name",
+                "flabel": "Name",
+                "fvalue": "username",
+                "fshow": true,
+                "frequired": true
+            }, {
+                "id": 1,
+                "type": {"id": 1, "type": "button", "subtype": "button"},
+                "fname": "Cadastrar",
+                "flabel": "Cadastrar",
+                "fvalue": "Cadastrar",
+                "fshow": true,
+                "frequired": true
+            }]
+        },{
+            "id": 1,
+            "name": "Hello World Group",
+            "fields": [{
+                "id": 1,
+                "type": {"id": 1, "type": "input", "subtype": "password"},
+                "fname": "password",
+                "flabel": "Password",
+                "fvalue": "Password",
+                "fshow": true,
+                "frequired": true
+            }, {
+                "id": 1,
+                "type": {"id": 1, "type": "input", "subtype": "text"},
+                "fname": "Name",
+                "flabel": "Name",
+                "fvalue": "username",
+                "fshow": true,
+                "frequired": true
+            }, {
+                "id": 1,
+                "type": {"id": 1, "type": "button", "subtype": "button"},
+                "fname": "Cadastrar",
+                "flabel": "Cadastrar",
+                "fvalue": "Cadastrar",
+                "fshow": true,
+                "frequired": true
+            }]
+        }]
+    };
+    var mainTemplate = $.templates("#mainTmpl");
+
+    $("#main").append(mainTemplate.render(jsonp));
+</script>
 </body>
 </html>

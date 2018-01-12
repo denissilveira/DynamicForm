@@ -1,7 +1,12 @@
 package com.poc.dynamicform.web.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class Field {
 	
 	private Long id;
@@ -70,7 +75,7 @@ public class Field {
 		this.frequired = frequired;
 	}
 	public List<Option> getOptions() {
-		return options;
+		return options == null ? new ArrayList<Option>() : options;
 	}
 	public void setOptions(List<Option> options) {
 		this.options = options;

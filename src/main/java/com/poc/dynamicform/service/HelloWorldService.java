@@ -4,5 +4,5 @@ import com.poc.dynamicform.web.form.HelloWordForm;
 
 public interface HelloWorldService {
 	
-	HelloWordForm loadForm(final Long id);
+	HelloWordForm loadForm(final Long id) throws Exception;
 }

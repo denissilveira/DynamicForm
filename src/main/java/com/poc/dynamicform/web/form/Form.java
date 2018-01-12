@@ -1,7 +1,12 @@
 package com.poc.dynamicform.web.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class Form {
 	
 	private Long id;
@@ -28,7 +33,7 @@ public class Form {
 		this.version = version;
 	}
 	public List<Group> getGroups() {
-		return groups;
+		return groups == null ? new ArrayList<Group>() : groups;
 	}
 	public void setGroups(List<Group> groups) {
 		this.groups = groups;

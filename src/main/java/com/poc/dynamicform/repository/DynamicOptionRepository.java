@@ -6,11 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.poc.dynamicform.domain.entity.DynamicField;
-import com.poc.dynamicform.domain.entity.DynanicOption;
+import com.poc.dynamicform.domain.entity.DynamicOption;
 
 @Repository
-public interface DynanicOptionRepository extends CrudRepository<DynanicOption, Long> {
+public interface DynamicOptionRepository extends CrudRepository<DynamicOption, Long> {
 	
-	List<DynanicOption> findByDynamicField(final DynamicField dynamicField);
+	List<DynamicOption> findByDynamicField(final DynamicField dynamicField);
 
 }

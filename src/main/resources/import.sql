@@ -3,7 +3,10 @@ CREATE TABLE dynamicform (
         CONSTRAINT dynamicform_id NOT NULL,
     name      VARCHAR2(100)
         CONSTRAINT dynamicform_name NOT NULL,
-    version   NUMBER NOT NULL
+    version   NUMBER NOT NULL,
+    method    VARCHAR2(10),
+    show      CHAR(1),
+    action    VARCHAR2(50)
 )
 LOGGING;
 
@@ -29,7 +32,11 @@ CREATE TABLE dynamicgroup (
     id            NUMBER
         CONSTRAINT dynamicgroup_id NOT NULL,
     dinamicform   NUMBER NOT NULL,
-    name          VARCHAR2(100)
+    name          VARCHAR2(100),
+    type          VARCHAR2(25),
+    parent        NUMBER,
+    show          CHAR(1),
+    showname      CHAR(1)
 )
 LOGGING;
 
@@ -38,13 +45,17 @@ CREATE UNIQUE INDEX idx_dynamicgroup_id ON
 
 CREATE INDEX idx_dynamicgroup_dinamicform ON
     dynamicgroup ( dinamicform ASC );
-
+    
 ALTER TABLE dynamicgroup ADD CONSTRAINT pk_group PRIMARY KEY ( id );
 
 ALTER TABLE dynamicgroup
     ADD CONSTRAINT fk_group_form FOREIGN KEY ( dinamicform )
         REFERENCES dynamicform ( id )
     NOT DEFERRABLE;
+    
+ALTER TABLE dynamicgroup
+    ADD CONSTRAINT fk_group_parent FOREIGN KEY ( parent )
+        REFERENCES dynamicgroup ( id );
 
 CREATE SEQUENCE seq_dynamicgroup_id START WITH 1 NOCACHE ORDER;
 
@@ -91,12 +102,15 @@ CREATE TABLE dynamicfield (
         CONSTRAINT dynamicfield_id NOT NULL,
     dynamicgroup   NUMBER NOT NULL,
     dynamictype    NUMBER NOT NULL,
-    fname           VARCHAR2(100),
-    flabel          VARCHAR2(1024) NOT NULL,
-    fvalue          VARCHAR2(1024),
-    fstyle          VARCHAR2(1024),
-    fshow           CHAR(1),
-    frequired       CHAR(1)
+    name           VARCHAR2(100),
+    label          VARCHAR2(1024),
+    value          VARCHAR2(1024),
+    style          CLOB,
+    show           CHAR(1),
+    required       CHAR(1),
+    showlabel      CHAR(1),
+    action         VARCHAR2(50),
+    actiontype     VARCHAR2(15)
 )
 LOGGING;
 

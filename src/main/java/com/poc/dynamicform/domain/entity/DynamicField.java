@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name="DYNAMICFIELD")
 public class DynamicField implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,19 +24,22 @@ public class DynamicField implements Serializable {
     @Basic(optional = false)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "dynamicGroup", referencedColumnName = "ID")
+	@JoinColumn(name = "DYNAMICGROUP", referencedColumnName = "ID")
 	@NotNull
 	private DynamicGroup dynamicGroup;
 	@ManyToOne
-	@JoinColumn(name = "dynamicType", referencedColumnName = "ID")
+	@JoinColumn(name = "DYNAMICTYPE", referencedColumnName = "ID")
 	@NotNull
 	private DynamicType dynamicType;
-	private String fname;
-	private String flabel;
-	private String fvalue;
-	private String fstyle;
-	private boolean fshow;
-	private boolean frequired;
+	private String name;
+	private String label;
+	private String value;
+	private String style;
+	private boolean show;
+	private boolean required;
+	private boolean showLabel;
+	private String action;
+	private String actionType;
 	
 	public Long getId() {
 		return id;
@@ -54,41 +59,59 @@ public class DynamicField implements Serializable {
 	public void setDynamicType(DynamicType dynamicType) {
 		this.dynamicType = dynamicType;
 	}
-	public String getFname() {
-		return fname;
+	public String getName() {
+		return name;
 	}
-	public void setFname(String fname) {
-		this.fname = fname;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getFlabel() {
-		return flabel;
+	public String getLabel() {
+		return label;
 	}
-	public void setFlabel(String flabel) {
-		this.flabel = flabel;
+	public void setLabel(String label) {
+		this.label = label;
 	}
-	public String getFvalue() {
-		return fvalue;
+	public String getValue() {
+		return value;
 	}
-	public void setFvalue(String fvalue) {
-		this.fvalue = fvalue;
+	public void setValue(String value) {
+		this.value = value;
 	}
-	public String getFstyle() {
-		return fstyle;
+	public String getStyle() {
+		return style;
 	}
-	public void setFstyle(String fstyle) {
-		this.fstyle = fstyle;
+	public void setStyle(String style) {
+		this.style = style;
 	}
-	public boolean isFshow() {
-		return fshow;
+	public boolean isShow() {
+		return show;
 	}
-	public void setFshow(boolean fshow) {
-		this.fshow = fshow;
+	public void setShow(boolean show) {
+		this.show = show;
 	}
-	public boolean isFrequired() {
-		return frequired;
+	public boolean isRequired() {
+		return required;
 	}
-	public void setFrequired(boolean frequired) {
-		this.frequired = frequired;
+	public void setRequired(boolean required) {
+		this.required = required;
+	}
+	public boolean isShowLabel() {
+		return showLabel;
+	}
+	public void setShowLabel(boolean showLabel) {
+		this.showLabel = showLabel;
+	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
+	}
+	public String getActionType() {
+		return actionType;
+	}
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
 	}
 	
 }
