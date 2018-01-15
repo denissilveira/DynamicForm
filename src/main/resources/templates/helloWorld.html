@@ -13,6 +13,10 @@
 
 <form id="main">
 </form>
+<!-- 
+<form:form modelAttribute="dynamicform" id="main" name="main" method="post">
+		<form:hidden path="form" name="form" id="form" />
+	</form:form> -->
 
 <script id="mainTmpl" type="text/x-jsrender">
     <h1>{{:name}}</h1>
@@ -44,73 +48,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
         integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
         crossorigin="anonymous"></script>
-
-<script>
-    var jsonp = {
-        "id": 1,
-        "name": "Hello World",
-        "version": 1,
-        "groups": [{
-            "id": 1,
-            "name": "Hello World Group",
-            "fields": [{
-                "id": 1,
-                "type": {"id": 1, "type": "input", "subtype": "password"},
-                "fname": "password",
-                "flabel": "Password",
-                "fvalue": "Password",
-                "fshow": true,
-                "frequired": true
-            }, {
-                "id": 1,
-                "type": {"id": 1, "type": "input", "subtype": "text"},
-                "fname": "Name",
-                "flabel": "Name",
-                "fvalue": "username",
-                "fshow": true,
-                "frequired": true
-            }, {
-                "id": 1,
-                "type": {"id": 1, "type": "button", "subtype": "button"},
-                "fname": "Cadastrar",
-                "flabel": "Cadastrar",
-                "fvalue": "Cadastrar",
-                "fshow": true,
-                "frequired": true
-            }]
-        },{
-            "id": 1,
-            "name": "Hello World Group",
-            "fields": [{
-                "id": 1,
-                "type": {"id": 1, "type": "input", "subtype": "password"},
-                "fname": "password",
-                "flabel": "Password",
-                "fvalue": "Password",
-                "fshow": true,
-                "frequired": true
-            }, {
-                "id": 1,
-                "type": {"id": 1, "type": "input", "subtype": "text"},
-                "fname": "Name",
-                "flabel": "Name",
-                "fvalue": "username",
-                "fshow": true,
-                "frequired": true
-            }, {
-                "id": 1,
-                "type": {"id": 1, "type": "button", "subtype": "button"},
-                "fname": "Cadastrar",
-                "flabel": "Cadastrar",
-                "fvalue": "Cadastrar",
-                "fshow": true,
-                "frequired": true
-            }]
-        }]
-    };
-    var mainTemplate = $.templates("#mainTmpl");
-
-    $("#main").append(mainTemplate.render(jsonp));
-</script>
+<script src="../js/dynamicform.js" /></script>
 </body>
 </html>

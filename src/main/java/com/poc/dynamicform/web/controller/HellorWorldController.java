@@ -20,13 +20,33 @@ public class HellorWorldController {
 		
 		try {
 			final Form form = service.loadForm(1L);
-			model.addAttribute("form", new Gson().toJson(form));
+			final DynamicFormWrapper dfw = new DynamicFormWrapper(form);
+			
+			model.addAttribute("dynamicform", dfw);
 			System.out.println(new Gson().toJson(form));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return "/helloWorld";
+	}
+	
+	// TODO REVER ESTA SOLUCAO COM A EQUIPE
+	public class DynamicFormWrapper {
+
+		private String form;
+
+		public DynamicFormWrapper(final Form form) {
+			this.form = new Gson().toJson(form);
+		}
+
+		public String getForm() {
+			return form;
+		}
+
+		public void setForm(String form) {
+			this.form = form;
+		}
 	}
 
 }

@@ -28,9 +28,9 @@ public class DynamicOption implements Serializable {
 	@JoinColumn(name = "DYNAMICFIELD", referencedColumnName = "ID")
 	@NotNull
 	private DynamicField dynamicField;
-	@Column(name="OPTION")
+	@Column(name="DOPTION")
 	private String option;
-	@Column(name="VALUE")
+	@Column(name="DVALUE")
 	private String value;
 	
 	public Long getId() {
