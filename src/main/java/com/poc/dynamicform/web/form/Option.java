@@ -6,34 +6,20 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class Option {
 	
-	private Long id;
-	private String doption;
-	private String dvalue;
-	private Field field;
+	private String option;
+	private String value;
 	
-	public Long getId() {
-		return id;
+	public String getOption() {
+		return option;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setOption(String option) {
+		this.option = option;
 	}
-	public String getDoption() {
-		return doption;
+	public String getValue() {
+		return value;
 	}
-	public void setDoption(String doption) {
-		this.doption = doption;
-	}
-	public String getDvalue() {
-		return dvalue;
-	}
-	public void setDvalue(String dvalue) {
-		this.dvalue = dvalue;
-	}
-	public Field getField() {
-		return field;
-	}
-	public void setField(Field field) {
-		this.field = field;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 }

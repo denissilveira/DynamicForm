@@ -16,7 +16,6 @@ public class TypeEntityToTypeForm implements Converter<DynamicType, Type> {
 			return null;
 
 		final Type type = new Type();
-		type.setId(entity.getId());
 		type.setSubtype(entity.getSubtype());
 		type.setType(entity.getType());
 		return type;

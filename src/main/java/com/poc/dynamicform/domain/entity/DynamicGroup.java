@@ -1,9 +1,11 @@
 package com.poc.dynamicform.domain.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -30,15 +33,21 @@ public class DynamicGroup implements Serializable {
 	@JoinColumn(name = "DINAMICFORM", referencedColumnName = "ID")
 	@NotNull
 	private DynamicForm dynamicForm;
+	@Column(name="NAME")
 	private String name;
+	@Column(name="TYPE")
 	private String type;
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT", referencedColumnName = "ID", updatable = false, insertable = false)
 	private DynamicGroup parent;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
 	private List<DynamicGroup> groups;
+	@Column(name="SHOW")
 	private boolean show;
+	@Column(name="SHOWNAME")
 	private boolean showName;
+	@Transient
+	private List<DynamicField> fields;
 
 	public Long getId() {
 		return id;
@@ -71,7 +80,7 @@ public class DynamicGroup implements Serializable {
 		this.parent = parent;
 	}
 	public List<DynamicGroup> getGroups() {
-		return groups;
+		return groups == null ? new ArrayList<DynamicGroup>() : groups;
 	}
 	public void setGroups(List<DynamicGroup> groups) {
 		this.groups = groups;
@@ -87,6 +96,12 @@ public class DynamicGroup implements Serializable {
 	}
 	public void setShowName(boolean showName) {
 		this.showName = showName;
+	}
+	public List<DynamicField> getFields() {
+		return fields == null ? new ArrayList<DynamicField>() : fields;
+	}
+	public void setFields(List<DynamicField> fields) {
+		this.fields = fields;
 	}
 	
 }

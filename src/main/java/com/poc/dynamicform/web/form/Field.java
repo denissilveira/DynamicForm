@@ -9,70 +9,77 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class Field {
 	
-	private Long id;
 	private Type type;
-	private Group group;
-	private String fname;
-	private String flabel;
-	private String fvalue;
-	private String fstyle;
-	private boolean fshow;
-	private boolean frequired;
+	private String name;
+	private String label;
+	private String value;
+	private String style;
+	private boolean show;
+	private boolean required;
+	private boolean showLabel;
+	private String action;
+	private String actionType;
 	private List<Option> options;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public Type getType() {
 		return type;
 	}
 	public void setType(Type type) {
 		this.type = type;
 	}
-	public Group getGroup() {
-		return group;
+	public String getName() {
+		return name;
 	}
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getFname() {
-		return fname;
+	public String getLabel() {
+		return label;
 	}
-	public void setFname(String fname) {
-		this.fname = fname;
+	public void setLabel(String label) {
+		this.label = label;
 	}
-	public String getFlabel() {
-		return flabel;
+	public String getValue() {
+		return value;
 	}
-	public void setFlabel(String flabel) {
-		this.flabel = flabel;
+	public void setValue(String value) {
+		this.value = value;
 	}
-	public String getFvalue() {
-		return fvalue;
+	public String getStyle() {
+		return style;
 	}
-	public void setFvalue(String fvalue) {
-		this.fvalue = fvalue;
+	public void setStyle(String style) {
+		this.style = style;
 	}
-	public String getFstyle() {
-		return fstyle;
+	public boolean isShow() {
+		return show;
 	}
-	public void setFstyle(String fstyle) {
-		this.fstyle = fstyle;
+	public void setShow(boolean show) {
+		this.show = show;
 	}
-	public boolean isFshow() {
-		return fshow;
+	public boolean isRequired() {
+		return required;
 	}
-	public void setFshow(boolean fshow) {
-		this.fshow = fshow;
+	public void setRequired(boolean required) {
+		this.required = required;
 	}
-	public boolean isFrequired() {
-		return frequired;
+	public boolean isShowLabel() {
+		return showLabel;
 	}
-	public void setFrequired(boolean frequired) {
-		this.frequired = frequired;
+	public void setShowLabel(boolean showLabel) {
+		this.showLabel = showLabel;
+	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
+	}
+	public String getActionType() {
+		return actionType;
+	}
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
 	}
 	public List<Option> getOptions() {
 		return options == null ? new ArrayList<Option>() : options;

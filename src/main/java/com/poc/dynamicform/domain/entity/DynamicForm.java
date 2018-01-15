@@ -1,14 +1,18 @@
 package com.poc.dynamicform.domain.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="DYNAMICFORM")
@@ -20,11 +24,18 @@ public class DynamicForm implements Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_dynamicform_id")
     @Basic(optional = false)
 	private Long id;
+	@Column(name="NAME")
 	private String name;
+	@Column(name="VERSION")
 	private Integer version;
+	@Column(name="METHOD")
 	private String method;
+	@Column(name="ACTION")
 	private String action;
+	@Column(name="SHOW")
 	private boolean show;
+	@Transient
+	private List<DynamicGroup> groups;
 	
 	public Long getId() {
 		return id;
@@ -61,6 +72,12 @@ public class DynamicForm implements Serializable {
 	}
 	public void setShow(boolean show) {
 		this.show = show;
+	}
+	public List<DynamicGroup> getGroups() {
+		return groups;
+	}
+	public void setGroups(List<DynamicGroup> groups) {
+		this.groups = groups == null ? new ArrayList<DynamicGroup>() : groups;
 	}
 	
 }

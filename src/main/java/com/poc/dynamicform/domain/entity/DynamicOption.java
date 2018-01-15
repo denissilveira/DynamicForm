@@ -3,6 +3,7 @@ package com.poc.dynamicform.domain.entity;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,8 +28,10 @@ public class DynamicOption implements Serializable {
 	@JoinColumn(name = "DYNAMICFIELD", referencedColumnName = "ID")
 	@NotNull
 	private DynamicField dynamicField;
-	private String doption;
-	private String dvalue;
+	@Column(name="OPTION")
+	private String option;
+	@Column(name="VALUE")
+	private String value;
 	
 	public Long getId() {
 		return id;
@@ -42,17 +45,17 @@ public class DynamicOption implements Serializable {
 	public void setDynamicField(DynamicField dynamicField) {
 		this.dynamicField = dynamicField;
 	}
-	public String getDoption() {
-		return doption;
+	public String getOption() {
+		return option;
 	}
-	public void setDoption(String doption) {
-		this.doption = doption;
+	public void setOption(String option) {
+		this.option = option;
 	}
-	public String getDvalue() {
-		return dvalue;
+	public String getValue() {
+		return value;
 	}
-	public void setDvalue(String dvalue) {
-		this.dvalue = dvalue;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 }

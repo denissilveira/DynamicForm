@@ -184,9 +184,38 @@ END;
 -- TYPES 
 insert into DYNAMICTYPE values (null, 'input', 'text');
 insert into DYNAMICTYPE values (null, 'input', 'password');
+insert into DYNAMICTYPE values (null, 'input', 'checkbox');
+insert into DYNAMICTYPE values (null, 'input', 'button');
+insert into DYNAMICTYPE values (null, 'input', 'email ');
+insert into DYNAMICTYPE values (null, 'input', 'file');
+insert into DYNAMICTYPE values (null, 'input', 'hidden');
+insert into DYNAMICTYPE values (null, 'input', 'number ');
+insert into DYNAMICTYPE values (null, 'input', 'date ');
+insert into DYNAMICTYPE values (null, 'input', 'image');
+insert into DYNAMICTYPE values (null, 'select', '');
+insert into DYNAMICTYPE values (null, 'radio', '');
+insert into DYNAMICTYPE values (null, 'img', '');
+insert into DYNAMICTYPE values (null, 'button', 'button');
+insert into DYNAMICTYPE values (null, 'button', 'submit');
+insert into DYNAMICTYPE values (null, 'button', 'reset');
+
 
 -- Hello World Form
-insert into DYNAMICFORM values (null, 'Hello World', 1);
-insert into DYNAMICGROUP values (null, 1, 'Hello World Group');
-insert into DYNAMICFIELD values (1, 1, 1, 'Hello World', 'Hello World', 'Hello World', null, '1', '1');
+insert into DYNAMICFORM values (null, 'POC FORM', 1, 'POST', '1', '/save');
+insert into DYNAMICGROUP values (null, 1, 'Group Simple DIV', 'div', null, '1', '1');
+insert into DYNAMICGROUP values (null, 1, 'Group Simple Fieldset', 'fieldset', null, '1', '1');
+
+insert into DYNAMICFIELD values (null, 1, 1, 'name', 'Name:', 'Value name', null, '1', '1', '1', null, null);
+insert into DYNAMICFIELD values (null, 1, 2, 'password', 'Password:', '12345678', null, '1', '1', '1', null, null);
+insert into DYNAMICFIELD values (null, 1, 12, 'sexo', 'Sexo:', null, null, '1', '1', '1', null, null);
+insert into DYNAMICFIELD values (null, 1, 11, 'pais', 'País:', null, null, '1', '1', '1', null, null);
+insert into DYNAMICOPTION values (null, 4, ' Brasil', 'br');
+insert into DYNAMICOPTION values (null, 4, 'Portugal', 'pt');
+insert into DYNAMICFIELD values (null, 1, 11, 'estado', 'Estado:', null, null, '1', '1', '1', null, null);
+insert into DYNAMICOPTION values (null, 5, ' São Paulo', 'sp');
+insert into DYNAMICOPTION values (null, 5, 'Rio de Janeiro', 'rj');
+insert into DYNAMICOPTION values (null, 5, ' Lisboa', 'lsb');
+insert into DYNAMICOPTION values (null, 5, 'Porto', 'prt');
+insert into DYNAMICFIELD values (null, 2, 1, 'inputevento', 'Teste Evento:', null, null, '1', '1', '1', null, null);
+insert into DYNAMICFIELD values (null, 2, 1, 'oculto', 'Campo Oculto:', '12345678', null, '0', '0', '0', null, null);
 

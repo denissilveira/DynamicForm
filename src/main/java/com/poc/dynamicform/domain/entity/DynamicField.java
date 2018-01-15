@@ -1,8 +1,11 @@
 package com.poc.dynamicform.domain.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -31,15 +35,26 @@ public class DynamicField implements Serializable {
 	@JoinColumn(name = "DYNAMICTYPE", referencedColumnName = "ID")
 	@NotNull
 	private DynamicType dynamicType;
+	@Column(name="NAME")
 	private String name;
+	@Column(name="LABEL")
 	private String label;
+	@Column(name="VALUE")
 	private String value;
+	@Column(name="STYLE")
 	private String style;
+	@Column(name="SHOW")
 	private boolean show;
+	@Column(name="REQUIRED")
 	private boolean required;
+	@Column(name="SHOWLABEL")
 	private boolean showLabel;
+	@Column(name="ACTION")
 	private String action;
+	@Column(name="ACTIONTYPE")
 	private String actionType;
+	@Transient
+	private List<DynamicOption> options;
 	
 	public Long getId() {
 		return id;
@@ -112,6 +127,12 @@ public class DynamicField implements Serializable {
 	}
 	public void setActionType(String actionType) {
 		this.actionType = actionType;
+	}
+	public List<DynamicOption> getOptions() {
+		return options == null ? new ArrayList<DynamicOption>() : options;
+	}
+	public void setOptions(List<DynamicOption> options) {
+		this.options = options;
 	}
 	
 }

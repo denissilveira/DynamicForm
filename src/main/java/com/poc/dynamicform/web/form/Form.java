@@ -9,17 +9,13 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class Form {
 	
-	private Long id;
 	private String name;
 	private Integer version;
+	private String method;
+	private String action;
+	private boolean show;
 	List<Group> groups;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getName() {
 		return name;
 	}
@@ -37,6 +33,24 @@ public class Form {
 	}
 	public void setGroups(List<Group> groups) {
 		this.groups = groups;
+	}
+	public String getMethod() {
+		return method;
+	}
+	public void setMethod(String method) {
+		this.method = method;
+	}
+	public String getAction() {
+		return action;
+	}
+	public void setAction(String action) {
+		this.action = action;
+	}
+	public boolean isShow() {
+		return show;
+	}
+	public void setShow(boolean show) {
+		this.show = show;
 	}
 
 }

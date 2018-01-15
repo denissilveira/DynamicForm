@@ -3,6 +3,7 @@ package com.poc.dynamicform.domain.entity;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,9 @@ public class DynamicType implements Serializable {
     @Basic(optional = false)
 	private Long id;
 	@NotNull
+	@Column(name="TYPE")
 	private String type;
+	@Column(name="SUBTYPE")
 	private String subtype;
 	
 	public Long getId() {
