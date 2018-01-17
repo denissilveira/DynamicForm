@@ -28,12 +28,25 @@ public class GroupEntityToGroupForm implements Converter<DynamicGroup, Group> {
 		group.setShow(entity.isShow());
 		group.setShowName(entity.isShowName());
 		group.setType(entity.getType());
+		group.setFields(getFields(entity));
+		group.setGroups(getChildren(entity));
+		return group;
+	}
+	
+	public List<Group> getChildren(final DynamicGroup entity) {
+		
+		final List<Group> groups = new ArrayList<Group>();
+		entity.getGroups().forEach(group -> {
+			groups.add(convert(group));
+		});
+		return groups;
+	}
+	
+	public List<Field> getFields(final DynamicGroup entity) {
 		final List<Field> fields = new ArrayList<Field>();
 		entity.getFields().forEach(field -> {
 			fields.add(fieldConverter.convert(field));
 		});
-		// TODO ADD SUBGROUPS
-		group.setFields(fields);
-		return group;
+		return fields;
 	}
 }

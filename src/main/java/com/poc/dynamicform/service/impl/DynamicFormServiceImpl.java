@@ -30,41 +30,45 @@ public class DynamicFormServiceImpl implements DynamicFormService {
 	private DynamicOptionRepository doRepository;
 	@Autowired
 	private DynamicFormEntityToForm formConverter;
-	
-	
-	@Override
+
 	public Form loadForm(final Long id) throws Exception {
-		
-		// TODO REFATORAR ESTE METODO ANTES DE PUBLICAR
-		
+
 		final DynamicForm form = dfRepository.findOne(id);
-		if(form == null)
+		if (form == null)
 			throw new Exception("Formulário não encontrado!");
-		
-		final List<DynamicGroup> groups = dgRepository.findByDynamicForm(form);
-		if(CollectionUtils.isEmpty(groups)) 
+
+		final List<DynamicGroup> groups = dgRepository.findByDynamicFormAndIsFather(form.getId());
+		if (CollectionUtils.isEmpty(groups))
 			throw new Exception("Grupos não encontrado!");
-		
-		for (DynamicGroup group : groups) {
-			
-			final List<DynamicField> fields = dfieldRepository.findByDynamicGroup(group);
-			
-			if(CollectionUtils.isEmpty(fields)) 
-				throw new Exception("Fields não encontrado!");
-			
-			for (DynamicField field : fields) {
-				try {
-					field.setOptions(doRepository.findByDynamicField(field));
-				} catch (Exception e) {
-				}
-			}
-			
-			group.setFields(fields);
-		}
-		
+
+		groups.forEach(group -> {
+			group.setGroups(getChildrenGroups(group));
+			group.setFields(getFields(group));
+		});
+
 		form.setGroups(groups);
-		
 		return formConverter.convert(form);
 	}
+
+	public List<DynamicGroup> getChildrenGroups(final DynamicGroup group) {
+
+		final List<DynamicGroup> groups = dgRepository.findByParent(group);
+		if (!CollectionUtils.isEmpty(groups)) {
+			groups.forEach(groupChield -> {
+				groupChield.setGroups(getChildrenGroups(groupChield));
+			});
+		}
+		group.setFields(getFields(group));
+		return groups;
+	}
+
+	public List<DynamicField> getFields(final DynamicGroup group) {
+		final List<DynamicField> fields = dfieldRepository.findByDynamicGroup(group);
+		fields.forEach(field -> {
+			field.setOptions(doRepository.findByDynamicField(field));
+		});
+		return fields;
+	}
+
 
 }
