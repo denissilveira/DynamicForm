@@ -25,7 +25,7 @@ public class DynamicOption implements Serializable {
     @Basic(optional = false)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "DYNAMICFIELD", referencedColumnName = "ID")
+	@JoinColumn(name = "dynamicfield", referencedColumnName = "ID")
 	@NotNull
 	private DynamicField dynamicField;
 	@Column(name="DOPTION")

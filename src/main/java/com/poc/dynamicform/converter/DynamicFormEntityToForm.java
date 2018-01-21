@@ -5,17 +5,21 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import com.poc.dynamicform.domain.entity.DynamicField;
 import com.poc.dynamicform.domain.entity.DynamicForm;
+import com.poc.dynamicform.domain.entity.DynamicGroup;
+import com.poc.dynamicform.web.form.Element;
 import com.poc.dynamicform.web.form.Form;
-import com.poc.dynamicform.web.form.Group;
 
-@Component
+@Service
 public class DynamicFormEntityToForm implements Converter<DynamicForm, Form> {
 	
 	@Autowired
 	private GroupEntityToGroupForm groupConverter;
+	@Autowired
+	private FieldEntityToFieldForm fieldConverter;
 
 	@Override
 	public Form convert(final DynamicForm entity) {
@@ -29,12 +33,18 @@ public class DynamicFormEntityToForm implements Converter<DynamicForm, Form> {
 		form.setMethod(entity.getMethod());
 		form.setShow(entity.isShow());
 		form.setAction(entity.getAction());
-		final List<Group> groups = new ArrayList<Group>();
-		entity.getGroups().forEach(group -> {
-			groups.add(groupConverter.convert(group));
+		final List<Element> elements = new ArrayList<Element>();
+		entity.getElements().forEach(element -> {
+		    
+		    if(element instanceof DynamicGroup) {
+		        elements.add(groupConverter.convert((DynamicGroup)element));
+		    } else if(element instanceof DynamicField) {
+		        elements.add(fieldConverter.convert((DynamicField)element));
+		    }
+		    
 		});
-		form.setGroups(groups);
+		form.setElements(elements);
 		return form;
 	}
-
+	
 }

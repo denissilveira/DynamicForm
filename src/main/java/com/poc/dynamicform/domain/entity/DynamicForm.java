@@ -35,7 +35,7 @@ public class DynamicForm implements Serializable {
 	@Column(name="SHOW")
 	private boolean show;
 	@Transient
-	private List<DynamicGroup> groups;
+	private List<DynamicElement> elements;
 	
 	public Long getId() {
 		return id;
@@ -73,11 +73,11 @@ public class DynamicForm implements Serializable {
 	public void setShow(boolean show) {
 		this.show = show;
 	}
-	public List<DynamicGroup> getGroups() {
-		return groups;
-	}
-	public void setGroups(List<DynamicGroup> groups) {
-		this.groups = groups == null ? new ArrayList<DynamicGroup>() : groups;
-	}
+    public List<DynamicElement> getElements() {
+        return elements == null ? new ArrayList<DynamicElement>() : elements;
+    }
+    public void setElements(List<DynamicElement> elements) {
+        this.elements = elements;
+    }
 	
 }

@@ -1,36 +1,25 @@
 package com.poc.dynamicform.domain.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="DYNAMICFIELD")
-public class DynamicField implements Serializable {
+@DiscriminatorValue(value = "FIELD")
+@PrimaryKeyJoinColumn(name="ID", referencedColumnName="ID")
+public class DynamicField extends DynamicElement {
 	
 	private static final long serialVersionUID = 1L;
-	@Id
-	@SequenceGenerator(name="seq_dynamicfield_id",sequenceName = "seq_dynamicfield_id", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_dynamicfield_id")
-    @Basic(optional = false)
-	private Long id;
-	@ManyToOne
-	@JoinColumn(name = "DYNAMICGROUP", referencedColumnName = "ID")
-	@NotNull
-	private DynamicGroup dynamicGroup;
 	@ManyToOne
 	@JoinColumn(name = "DYNAMICTYPE", referencedColumnName = "ID")
 	@NotNull
@@ -56,18 +45,6 @@ public class DynamicField implements Serializable {
 	@Transient
 	private List<DynamicOption> options;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public DynamicGroup getDynamicGroup() {
-		return dynamicGroup;
-	}
-	public void setDynamicGroup(DynamicGroup dynamicGroup) {
-		this.dynamicGroup = dynamicGroup;
-	}
 	public DynamicType getDynamicType() {
 		return dynamicType;
 	}

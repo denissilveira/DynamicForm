@@ -3,10 +3,6 @@ package com.poc.dynamicform.web.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-@JsonInclude(Include.NON_NULL)
 public class Form {
 	
 	private String name;
@@ -14,7 +10,7 @@ public class Form {
 	private String method;
 	private String action;
 	private boolean show;
-	List<Group> groups;
+	List<Element> elements;
 	
 	public String getName() {
 		return name;
@@ -27,12 +23,6 @@ public class Form {
 	}
 	public void setVersion(Integer version) {
 		this.version = version;
-	}
-	public List<Group> getGroups() {
-		return groups == null ? new ArrayList<Group>() : groups;
-	}
-	public void setGroups(List<Group> groups) {
-		this.groups = groups;
 	}
 	public String getMethod() {
 		return method;
@@ -52,5 +42,11 @@ public class Form {
 	public void setShow(boolean show) {
 		this.show = show;
 	}
+    public List<Element> getElements() {
+        return elements == null ? new ArrayList<Element>() : elements;
+    }
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
+    }
 
 }
