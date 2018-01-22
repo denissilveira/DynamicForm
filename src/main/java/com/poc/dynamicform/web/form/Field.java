@@ -3,6 +3,10 @@ package com.poc.dynamicform.web.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class Field extends Element{
 	
 	private Type type;

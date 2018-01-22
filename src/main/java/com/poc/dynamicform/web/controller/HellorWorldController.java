@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.poc.dynamicform.service.DynamicFormService;
 import com.poc.dynamicform.web.form.Form;
@@ -31,13 +33,18 @@ public class HellorWorldController {
 		return "/helloWorld";
 	}
 	
-	// TODO REVER ESTA SOLUCAO COM A EQUIPE
 	public class DynamicFormWrapper {
 
 		private String form;
 
 		public DynamicFormWrapper(final Form form) {
-			this.form = new Gson().toJson(form);
+			ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+            try {
+                this.form = mapper.writeValueAsString(form);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+            } 
 		}
 
 		public String getForm() {
