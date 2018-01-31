@@ -1,110 +1,192 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <tags:layout menuId="pocForm" title="POC Form">
 
-	<form:form modelAttribute="dynamicform" id="main" name="main" method="post">
-		<form:hidden path="form" name="form" id="form" />
+    <form:form modelAttribute="dynamicform" id="main" name="main" method="post">
+        <form:hidden path="form" name="form" id="form" />
         <form:hidden path="data" name="data" id="data" />
-		<div id="dynamicFormResult"></div>
-	
-	</form:form>
-	
+        <div id="dynamicFormResult"></div>
+        <button type="button" id="Salvar" name="button" value="adv">Salvar</button>
+    </form:form>
+    
 <script id="dynamicFormTmpl" type="text/x-jsrender">
-	{{if show}}
- 		<div name="{{:version}}" id="{{:version}}"> 
-  			{{for groups}}
-    			{{include tmpl='#'+type+'GroupTmpl'/}}
-  			{{/for}}
-  		<div>
-	{{/if}}
+    {{if show}}
+        <div name="{{:version}}" id="{{:version}}"> 
+    {{else}}
+        <div name="{{:version}}" id="{{:version}}" style="display:none"> 
+    {{/if}}
+            {{for elements}}
+                
+                {{if type == "div"}}
+                     {{include tmpl='#'+type+'GroupTmpl'/}}
+                {{else}}
+                    {{include tmpl='#'+type.type+'Tmpl'/}}  
+                {{/if}}
+
+            {{/for}}
+        </div>
 </script>
 
-<script id="fieldsetGroupTmpl" type="text/x-jsrender">
-{{if show}}
-    <fieldset>{{if showName}}<legend>{{:name}}</legend>{{/if}}
-       
-            {{for groups}}
-               {{include tmpl='#'+type+'GroupTmpl'/}}
-            {{/for}}
+<script id="buttonAddNewFieldElementTmpl" type="text/x-jsrender">
+    <button type="button" id="buttonAddMultiple{{:name}}" name="buttonAddMultiple{{:name}}" onclick="addNewFieldElement({{:name}}, {{:maxElements}});" >Adicionar</button>
+    <br />
+</script>
 
-          {{for fields}}
-            {{include tmpl='#'+type.type+'Tmpl'/}}
-          {{/for}}
-    </fieldset>
-{{/if}}
+<script id="buttonAddNewElementTmpl" type="text/x-jsrender">
+    <button type="button" id="buttonAddNewElementTmpl{{:name}}" name="buttonAddNewElementTmpl{{:name}}" onclick="addNewElement({{:name}}, {{:maxElements}});" >Adicionar</button>
+    <br />
 </script>
 
 <script id="divGroupTmpl" type="text/x-jsrender">
-{{if show}}
-    <div>{{if showName}}<h3>{{:name}}</h3>{{/if}}
-
-		 {{for groups}}
-               {{include tmpl='#'+type+'GroupTmpl'/}}
-            {{/for}}
-        
-          {{for fields}}
-            {{include tmpl='#'+type.type+'Tmpl'/}}
-          {{/for}}
-        
+<span id="{{:name}}_span">
+    {{if show}}
+        <div id="{{:name}}">
+    {{else}}
+        <div id="{{:name}}" style="display:none">
+    {{/if}}
+    {{if showName}}<h3>{{:name}}</h3>{{/if}}
+        {{include tmpl='#subGroupTmpl'/}}
     </div>
-{{/if}}
+    
+     {{if multiple}}
+        {{include tmpl='#buttonAddNewElementTmpl'/}}  
+     {{/if}}
+</span>
+</script>
+
+<script id="subGroupTmpl" type="text/x-jsrender">
+{{for elements}}
+    {{if type == "div"}}
+        {{include tmpl='#'+type+'GroupTmpl'/}}
+    {{else}}
+        {{include tmpl='#'+type.type+'Tmpl'/}}  
+    {{/if}}
+{{/for}}
 </script>
 
 <script id="inputTmpl" type="text/x-jsrender">
-{{if show}}
-	{{if showLabel}}
-		<label>{{:name}}</label>
-	{{/if}}
-	{{if type.subtype == 'file'}}
-		<input type="{{:type.subtype}}" id="{{:name}}">
-	{{else}}
-		<input type="{{:type.subtype}}" id="{{:name}}" class="form-control" value="{{:value}}">
-	{{/if}}
+<span id="{{:name}}_span">
+    {{if showLabel}}
+        <label>{{:name}}</label>
+    {{else}}
+        <label style="display:none">{{:name}}</label>
+    {{/if}}
+    {{if show}}
+        <input type="{{:type.subtype}}" id="{{:name}}" class="form-control" value="{{:value}}">
+    {{else}}
+        <input type="{{:type.subtype}}" id="{{:name}}" class="form-control" value="{{:value}}" style="display:none">
+    {{/if}}
+    {{if multiple}}
+        {{include tmpl='#buttonAddNewElementTmpl'/}}  
+    {{/if}}
 
-{{/if}}
+    {{include tmpl='#subGroupTmpl'/}}
+</span>
 </script>
 
 <script id="buttonTmpl" type="text/x-jsrender">
 {{if show}}
-	<button type="button" id="{{:name}}" name="button" >{{:name}}</button>
+    <button type="button" id="{{:name}}" name="button" >{{:name}}</button>
+{{else}}
+    <button type="button" id="{{:name}}" name="button" style="display:none">{{:name}}</button>
 {{/if}}
 </script>
 
 <script id="selectTmpl" type="text/x-jsrender">
-{{if show}}
-	{{if showLabel}}
-    	<label for="">{{:name}}</label>
-	{{/if}}
-    <select class="form-control" id="{{:name}}">
+<span id="{{:name}}_span">
+    {{if showLabel}}
+        <label for="">{{:name}}</label>
+    {{else}}
+        <label style="display:none">{{:name}}</label>
+    {{/if}}
+    
+    {{if show}}
+        {{if containsSubForm}} 
+            <select class="form-control" id="{{:name}}" onchange="renderSubFormSelect(this);">
+        {{else}}
+            <select class="form-control" id="{{:name}}">
+        {{/if}}
+
+    {{else}}
+        <select class="form-control" id="{{:name}}" style="display:none">
+    {{/if}}
         <option value=""> -- Selecione -- </option>
         {{for options}}
             {{include tmpl='#optionsTmpl'/}}
         {{/for}}
     </select>
-{{/if}}
+    {{if multiple}}
+        {{include tmpl='#buttonAddNewElementTmpl'/}}  
+    {{/if}}
+
+    {{include tmpl='#subGroupTmpl'/}}
+</span>
 </script>
 
 <script id="optionsTmpl" type="text/x-jsrender">
-    <option value="{{:value}}">{{:option}}</option>
+    {{if value==selectedValue}}
+        <option value="{{:value}}" selected>{{:option}}</option>
+        {{else}}
+        <option value="{{:value}}">{{:option}}</option>
+    {{/if}}
 </script>
 
 <script id="radioTmpl" type="text/x-jsrender">
+<span id="{{:name}}_span">
 {{if show}}
     <label for="">{{:label}}</label>
-    {{for options}}
-        <label class="form-control"><input type="radio" name="{{:name}}" id="{{:name}}" value="{{:value}}"/> {{:option}}</label>
-    {{/for}}
+
+        {{if containsSubForm}} 
+
+            {{for options}}
+                {{if value==selectedValue}}
+                        <label class="form-control"><input type="radio" name="{{:option}}" id="{{:option}}"  value="{{:value}}" checked="checked" onclick="renderSubFormRadio(this, '{{:option}}');"  /> {{:value}}</label>
+                    {{else}}
+                        <label class="form-control"><input type="radio" name="{{:option}}" id="{{:option}}"  value="{{:value}}" onclick="renderSubFormRadio(this, '{{:option}}');"  /> {{:value}}</label>
+                {{/if}}
+            {{/for}}
+
+        {{else}}
+
+            {{for options}}
+                {{if value==selectedValue}}
+                        <label class="form-control"><input type="radio" name="{{:option}}" id="{{:option}}"  value="{{:value}}" checked="checked" /> {{:value}}</label>
+                    {{else}}
+                        <label class="form-control"><input type="radio" name="{{:option}}" id="{{:option}}"  value="{{:value}}" /> {{:value}}</label>
+                {{/if}}
+            {{/for}}
+
+        {{/if}}
 {{/if}}
+{{if multiple}}
+    {{include tmpl='#buttonaddnewfieldelementtmpl'/}}  
+{{/if}}
+{{include tmpl='#subGroupTmpl'/}}
+</span>
 </script>
 
 <script id="checkboxTmpl" type="text/x-jsrender">
-{{if show}}
-    <input type="{{:type.subtype}}" id="{{:name}}"  value="{{:value}}">
-    {{if showLabel}}<label for="">{{:label}}</label>{{/if}}
-{{/if}}
+<span id="{{:name}}_span">
+    {{if show}}
+        <input type="{{:type.subtype}}" id="{{:name}}" value="{{:value}}" />
+    {{else}}
+        <input type="{{:type.subtype}}" id="{{:name}}" value="{{:value}}" style="display:none" />
+    {{/if}}
+
+    {{if showLabel}}
+        <label for="">{{:label}}</label>
+    {{else}}
+        <label style="display:none">{{:name}}</label>
+    {{/if}}
+
+    {{if multiple}}
+        {{include tmpl='#buttonAddNewFieldElementTmpl'/}}  
+    {{/if}}
+    {{include tmpl='#subGroupTmpl'/}}
+</span>
 </script>
 
 </tags:layout>
