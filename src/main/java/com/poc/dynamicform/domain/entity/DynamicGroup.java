@@ -20,32 +20,16 @@ public class DynamicGroup extends DynamicElement {
 	@JoinColumn(name = "DINAMICFORM", referencedColumnName = "ID")
 	@NotNull
 	private DynamicForm dynamicForm;
-	@Column(name="NAME")
-	private String name;
 	@Column(name="TYPE")
 	private String type;
-	@Column(name="SHOW")
-	private boolean show;
 	@Column(name="SHOWNAME")
 	private boolean showName;
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
-	}
-	public boolean isShow() {
-		return show;
-	}
-	public void setShow(boolean show) {
-		this.show = show;
 	}
 	public boolean isShowName() {
 		return showName;

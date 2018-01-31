@@ -3,7 +3,7 @@ CREATE TABLE dynamicform (
         CONSTRAINT dynamicform_id NOT NULL,
     name      VARCHAR2(100)
         CONSTRAINT dynamicform_name NOT NULL,
-    version   NUMBER NOT NULL,
+    version   VARCHAR2(25) NOT NULL,
     method    VARCHAR2(10),
     show      CHAR(1),
     action    VARCHAR2(50)
@@ -29,10 +29,14 @@ END;
 CREATE TABLE dynamicelement (
     id            NUMBER
         CONSTRAINT nnc_element_id NOT NULL,
+    name      VARCHAR2(100),
     dynamicform   NUMBER NOT NULL,
     position      NUMBER NOT NULL,
     type          VARCHAR2(5) NOT NULL,    
-    parent        NUMBER
+    parent        NUMBER,
+    show          CHAR(1),
+    multiple      CHAR(1),
+    maxElements   NUMBER default '1'
 );
 
 ALTER TABLE dynamicelement ADD CONSTRAINT pk_dynamictype PRIMARY KEY ( id );
@@ -59,9 +63,7 @@ END;
 CREATE TABLE dynamicgroup (
     id         NUMBER
         CONSTRAINT nnc_group_id NOT NULL,
-    name       VARCHAR2(100),
     type       VARCHAR2(25),
-    show       CHAR(1),
     showname   CHAR(1)
 );
 
@@ -97,15 +99,12 @@ CREATE TABLE dynamicfield (
     id            NUMBER
         CONSTRAINT nnc_field_id NOT NULL,
     dynamictype   NUMBER NOT NULL,
-    name          VARCHAR2(100) NOT NULL,
     label         VARCHAR2(1024) NOT NULL,
     value         VARCHAR2(1024),
     style         CLOB,
-    show          CHAR(1),
     required      CHAR(1),
     showlabel     CHAR(1),
-    action        VARCHAR2(50),
-    actiontype    VARCHAR2(15)
+    containssubform CHAR(1) default '0'
 );
 
 ALTER TABLE dynamicfield ADD CONSTRAINT pk_field PRIMARY KEY ( id );
@@ -205,41 +204,82 @@ insert into DYNAMICTYPE values (null, 'button', 'reset');
 insert into DYNAMICFORM values (1, 'CCP2018_ANEXO2', 1, 'POST', '1', '/save');
 
 -- ENTIDADE_ADJUDICANTE
-insert into DYNAMICELEMENT values (1, 1, 1, 'GROUP', null); 
-insert into DYNAMICGROUP values (1, 'ENTIDADE_ADJUDICANTE', 'div', '1', '1');
+insert into DYNAMICELEMENT values (1, 'ENTIDADE_ADJUDICANTE', 1, 1, 'GROUP', null, '1', '0', '1'); 
+insert into DYNAMICGROUP values (1, 'div', '1');
 
 -- CONTRATO
-insert into DYNAMICELEMENT values (2, 1, 2, 'GROUP', null); 
-insert into DYNAMICGROUP values (2, 'CONTRATO', 'div', '1', '1');
+insert into DYNAMICELEMENT values (2, 'CONTRATO', 1, 2, 'GROUP', null, '1', '0', '1'); 
+insert into DYNAMICGROUP values (2, 'div', '1');
 
 
 -- FIELDS AND GROUPS ENTIDADE_ADJUDICANTE
-insert into DYNAMICELEMENT values (3, 1, 1, 'GROUP', (select id from DYNAMICGROUP where name = 'ENTIDADE_ADJUDICANTE')); 
-insert into DYNAMICGROUP values (3, 'PRINCIPAL', 'div', '1', '1');
+insert into DYNAMICELEMENT values (3, 'PRINCIPAL', 1, 1, 'GROUP', (select id from DYNAMICELEMENT where name = 'ENTIDADE_ADJUDICANTE'), '1', '0', '1'); 
+insert into DYNAMICGROUP values (3, 'div', '1');
 
-insert into DYNAMICELEMENT values (4, 1, 1, 'FIELD', (select id from DYNAMICGROUP where name = 'ENTIDADE_ADJUDICANTE')); 
-insert into DYNAMICFIELD values (4, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'ENDERECO', 'ENDERECO:', '', null, '1', '1', '1', null, null);
+insert into DYNAMICELEMENT values (4, 'DESIGNACAO', 1, 1, 'FIELD', (select id from DYNAMICELEMENT where name = 'PRINCIPAL'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (4, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'DESIGNACAO:', '', null, '1', '1','0');
 
-insert into DYNAMICELEMENT values (5, 1, 2, 'FIELD', (select id from DYNAMICGROUP where name = 'PRINCIPAL')); 
-insert into DYNAMICFIELD values (5, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'NIF', 'NIF:', '', null, '1', '1', '1', null, null);
+insert into DYNAMICELEMENT values (5, 'NIF', 1, 2, 'FIELD', (select id from DYNAMICELEMENT where name = 'PRINCIPAL'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (5, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'NIF:', '', null, '1', '1', '0');
 
-insert into DYNAMICELEMENT values (6, 1, 3, 'FIELD', (select id from DYNAMICGROUP where name = 'ENTIDADE_ADJUDICANTE')); 
-insert into DYNAMICFIELD values (6, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'ENDERECO', 'ENDERECO:', '', null, '1', '1', '1', null, null);
+insert into DYNAMICELEMENT values (6, 'ENDERECO', 1, 3, 'FIELD', (select id from DYNAMICELEMENT where name = 'ENTIDADE_ADJUDICANTE'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (6, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'ENDERECO:', '', null, '1', '1', '0');
 
-insert into DYNAMICELEMENT values (7, 1, 4, 'FIELD', (select id from DYNAMICGROUP where name = 'ENTIDADE_ADJUDICANTE')); 
-insert into DYNAMICFIELD values (7, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'COD_POSTAL', 'COD_POSTAL:', '', null, '1', '1', '1', null, null);
+insert into DYNAMICELEMENT values (7, 'COD_POSTAL', 1, 4, 'FIELD', (select id from DYNAMICELEMENT where name = 'ENTIDADE_ADJUDICANTE'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (7, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'COD_POSTAL:', '', null, '1', '1', '0');
 
-insert into DYNAMICELEMENT values (8, 1, 5, 'FIELD', (select id from DYNAMICGROUP where name = 'ENTIDADE_ADJUDICANTE')); 
-insert into DYNAMICFIELD values (8, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'LOCALIDADE', 'LOCALIDADE:', '', null, '1', '1', '1', null, null);
-
-
-insert into DYNAMICELEMENT values (9, 1, 6, 'GROUP', (select id from DYNAMICGROUP where name = 'ENTIDADE_ADJUDICANTE')); 
-insert into DYNAMICGROUP values (9, 'LOCAL_CODIGOS', 'div', '1', '1');
-
-insert into DYNAMICELEMENT values (10, 1, 1, 'FIELD', (select id from DYNAMICGROUP where name = 'LOCAL_CODIGOS')); 
-insert into DYNAMICFIELD values (10, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'CODIGO', 'CODIGO:', '', null, '1', '1', '1', null, null);
+insert into DYNAMICELEMENT values (8, 'LOCALIDADE', 1, 5, 'FIELD', (select id from DYNAMICELEMENT where name = 'ENTIDADE_ADJUDICANTE'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (8, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'LOCALIDADE:', '', null, '1', '1','0');
 
 
-insert into DYNAMICELEMENT values (11, 1, 7, 'FIELD', (select id from DYNAMICGROUP where name = 'ENTIDADE_ADJUDICANTE')); 
-insert into DYNAMICFIELD values (11, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'EMAIL', 'EMAIL:', '', null, '1', '1', '1', null, null);
+insert into DYNAMICELEMENT values (9, 'LOCAL_CODIGOS', 1, 6, 'GROUP', (select id from DYNAMICELEMENT where name = 'ENTIDADE_ADJUDICANTE'), '1', '0', '1'); 
+insert into DYNAMICGROUP values (9, 'div', '1');
 
+insert into DYNAMICELEMENT values (10, 'CODIGO', 1, 1, 'FIELD', (select id from DYNAMICELEMENT where name = 'LOCAL_CODIGOS'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (10, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'CODIGO:', '', null, '1', '1', '0');
+
+
+insert into DYNAMICELEMENT values (11, 'EMAIL', 1, 7, 'FIELD', (select id from DYNAMICELEMENT where name = 'ENTIDADE_ADJUDICANTE'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (11, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'EMAIL:', '', null, '1', '1', '0');
+
+insert into DYNAMICELEMENT values (12, 'CPV', 1, 1, 'GROUP', (select id from DYNAMICELEMENT where name = 'CONTRATO'), '1', '0', '1'); 
+insert into DYNAMICGROUP values (12, 'div', '1');
+
+insert into DYNAMICELEMENT values (13, 'OBJECTO_PRINCIPAL', 1, 1, 'GROUP', (select id from DYNAMICELEMENT where name = 'CPV'), '1', '0', '1'); 
+insert into DYNAMICGROUP values (13, 'div', '1');
+
+
+insert into DYNAMICELEMENT values (15, 'VOCABULARIO_PRINCIPAL', 1, 1, 'FIELD', (select id from DYNAMICELEMENT where name = 'OBJECTO_PRINCIPAL'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (15, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'VOCABULARIO_PRINCIPAL:', '', null, '1', '1', '0');
+
+insert into DYNAMICELEMENT values (14, 'VALOR', 1, 2, 'FIELD', (select id from DYNAMICELEMENT where name = 'OBJECTO_PRINCIPAL'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (14, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'VALOR:', '', null, '1', '1', '0');
+
+
+insert into DYNAMICELEMENT values (16, 'DYNAMIC_SUBGROUP', 1, 3, 'GROUP', null, '1', '0', '1'); 
+insert into DYNAMICGROUP values (16, 'div', '1');
+
+insert into DYNAMICELEMENT values (17, 'dynamicsubgroup', 1, 1, 'FIELD', (select id from DYNAMICELEMENT where name = 'DYNAMIC_SUBGROUP'), '1', '0', '5'); 
+insert into DYNAMICFIELD values (17, (SELECT ID FROM DYNAMICTYPE WHERE type = 'select'), 'SELECIONE QUALQUER OPCAO:', '', null, '1', '1', '1');
+
+insert into DYNAMICOPTION values (1, 17, 'dynamicsubgroup', 'SubForm1');
+insert into DYNAMICOPTION values (2, 17, 'dynamicsubgroup', 'SubForm2');
+insert into DYNAMICOPTION values (3, 17, 'dynamicsubgroup', 'SubForm3');
+
+insert into DYNAMICELEMENT values (18, 'SubForm1', 1, 1, 'GROUP', 17, '0', '0', '1'); 
+insert into DYNAMICGROUP values (18, 'div', '1');
+
+insert into DYNAMICELEMENT values (19, 'SubForm2', 1, 2, 'GROUP', 17, '0', '0', '1'); 
+insert into DYNAMICGROUP values (19, 'div', '1');
+
+insert into DYNAMICELEMENT values (20, 'SubForm3', 1, 3, 'GROUP', 17, '0', '0', '1'); 
+insert into DYNAMICGROUP values (20, 'div', '1');
+
+insert into DYNAMICELEMENT values (21, 'TESTESUB1', 1, 1, 'FIELD', (select id from DYNAMICELEMENT where name = 'SubForm1'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (21, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'TESTESUB1:', '', null, '0', '1', '0');
+
+insert into DYNAMICELEMENT values (22, 'TESTESUB2', 1, 1, 'FIELD', (select id from DYNAMICELEMENT where name = 'SubForm2'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (22, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'TESTESUB2:', '', null, '0', '1', '0');
+
+insert into DYNAMICELEMENT values (23, 'TESTESUB3', 1, 1, 'FIELD', (select id from DYNAMICELEMENT where name = 'SubForm3'), '1', '0', '1'); 
+insert into DYNAMICFIELD values (23, (SELECT ID FROM DYNAMICTYPE WHERE subtype = 'text'), 'TESTESUB3:', '', null, '0', '1', '0');

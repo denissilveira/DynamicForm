@@ -8,6 +8,7 @@ public class Option {
 	
 	private String option;
 	private String value;
+	private String selectedValue;
 	
 	public String getOption() {
 		return option;
@@ -21,5 +22,13 @@ public class Option {
 	public void setValue(String value) {
 		this.value = value;
 	}
+    public String getSelectedValue() {
+        return selectedValue;
+    }
+    public void setSelectedValue(String selectedValue) {
+        this.selectedValue = selectedValue;
+    }
+	
+	
 
 }

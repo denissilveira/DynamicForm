@@ -27,7 +27,7 @@ public class DynamicForm implements Serializable {
 	@Column(name="NAME")
 	private String name;
 	@Column(name="VERSION")
-	private Integer version;
+	private String version;
 	@Column(name="METHOD")
 	private String method;
 	@Column(name="ACTION")
@@ -49,10 +49,10 @@ public class DynamicForm implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getVersion() {
+	public String getVersion() {
 		return version;
 	}
-	public void setVersion(Integer version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 	public String getMethod() {

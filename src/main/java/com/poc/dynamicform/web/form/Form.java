@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Form {
 	
 	private String name;
-	private Integer version;
+	private String version;
 	private String method;
 	private String action;
 	private boolean show;
@@ -22,10 +22,10 @@ public class Form {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getVersion() {
+	public String getVersion() {
 		return version;
 	}
-	public void setVersion(Integer version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 	public String getMethod() {

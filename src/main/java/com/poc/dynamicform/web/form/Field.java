@@ -10,15 +10,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Field extends Element{
 	
 	private Type type;
-	private String name;
 	private String label;
 	private String value;
 	private String style;
-	private boolean show;
 	private boolean required;
 	private boolean showLabel;
-	private String action;
-	private String actionType;
+	private boolean containsSubForm;
 	private List<Option> options;
 	
 	public Type getType() {
@@ -26,12 +23,6 @@ public class Field extends Element{
 	}
 	public void setType(Type type) {
 		this.type = type;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getLabel() {
 		return label;
@@ -51,12 +42,6 @@ public class Field extends Element{
 	public void setStyle(String style) {
 		this.style = style;
 	}
-	public boolean isShow() {
-		return show;
-	}
-	public void setShow(boolean show) {
-		this.show = show;
-	}
 	public boolean isRequired() {
 		return required;
 	}
@@ -69,23 +54,17 @@ public class Field extends Element{
 	public void setShowLabel(boolean showLabel) {
 		this.showLabel = showLabel;
 	}
-	public String getAction() {
-		return action;
-	}
-	public void setAction(String action) {
-		this.action = action;
-	}
-	public String getActionType() {
-		return actionType;
-	}
-	public void setActionType(String actionType) {
-		this.actionType = actionType;
-	}
 	public List<Option> getOptions() {
 		return options == null ? new ArrayList<Option>() : options;
 	}
 	public void setOptions(List<Option> options) {
 		this.options = options;
 	}
+    public boolean isContainsSubForm() {
+        return containsSubForm;
+    }
+    public void setContainsSubForm(boolean containsSubForm) {
+        this.containsSubForm = containsSubForm;
+    }
 
 }

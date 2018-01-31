@@ -27,8 +27,6 @@ public class FieldEntityToFieldForm implements Converter<DynamicField, Field>{
 		
 		final Field field = new Field();
 		field.setType(typeConverter.convert(entity.getDynamicType()));
-		field.setAction(entity.getAction());
-		field.setActionType(entity.getActionType());
 		field.setLabel(entity.getLabel());
 		field.setName(entity.getName());
 		field.setRequired(entity.isRequired());
@@ -36,6 +34,9 @@ public class FieldEntityToFieldForm implements Converter<DynamicField, Field>{
 		field.setShowLabel(entity.isShowLabel());
 		field.setStyle(entity.getStyle());
 		field.setValue(entity.getValue());
+		field.setContainsSubForm(entity.isContainsSubForm());
+		field.setMultiple(entity.isMultiple());
+		field.setMaxElements(entity.getMaxElements());
 		final List<Option> options = new ArrayList<Option>();
 		entity.getOptions().forEach(option -> {
 			options.add(optionConverter.convert(option));

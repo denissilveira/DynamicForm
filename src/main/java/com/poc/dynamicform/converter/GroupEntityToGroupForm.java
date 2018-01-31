@@ -12,6 +12,7 @@ import com.poc.dynamicform.domain.entity.DynamicElement;
 import com.poc.dynamicform.domain.entity.DynamicField;
 import com.poc.dynamicform.domain.entity.DynamicGroup;
 import com.poc.dynamicform.web.form.Element;
+import com.poc.dynamicform.web.form.Field;
 import com.poc.dynamicform.web.form.Group;
 
 @Component
@@ -32,6 +33,7 @@ public class GroupEntityToGroupForm implements Converter<DynamicGroup, Group> {
 		group.setShowName(entity.isShowName());
 		group.setType(entity.getType());
 		group.setElements(getSubElements(entity));
+		group.setMultiple(entity.isMultiple());
 		return group;
 	}
 	
@@ -44,29 +46,13 @@ public class GroupEntityToGroupForm implements Converter<DynamicGroup, Group> {
                 if(element instanceof DynamicGroup) {
                     subElements.add(convert((DynamicGroup) element));
                 } else  if(element instanceof DynamicField) {
-                    subElements.add(fieldConverter.convert((DynamicField) element));
+                    final Field field = fieldConverter.convert((DynamicField) element);
+                    field.setElements(getSubElements(element));
+                    subElements.add(field);
                 }
             });
         }
         
         return subElements;
     }
-
-
-//	private List<Group> getChildren(final DynamicGroup entity) {
-//		
-//		final List<Group> groups = new ArrayList<Group>();
-//		entity.getGroups().forEach(group -> {
-//			groups.add(convert(group));
-//		});
-//		return groups;
-//	}
-	
-//	public List<Field> getFields(final DynamicGroup entity) {
-//		final List<Field> fields = new ArrayList<Field>();
-//		entity.getFields().forEach(field -> {
-//			fields.add(fieldConverter.convert(field));
-//		});
-//		return fields;
-//	}
 }

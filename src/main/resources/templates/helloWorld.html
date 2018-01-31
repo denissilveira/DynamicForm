@@ -1,53 +1,117 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<tags:layout menuId="pocForm" title="POC Form">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
-          integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous" ></link>
-
-    <title>Hello, world!</title>
-</head>
-<body>
-
-<form id="main">
-</form>
-<!-- 
-<form:form modelAttribute="dynamicform" id="main" name="main" method="post">
+	<form:form modelAttribute="dynamicform" id="main" name="main" method="post">
 		<form:hidden path="form" name="form" id="form" />
-	</form:form> -->
-
-<script id="mainTmpl" type="text/x-jsrender">
-    <h1>{{:name}}</h1>
-  {{for groups}}
-    <h2>{{:name}}</h2>
-    <div class="form-group">
-      {{for fields}}
-        {{include tmpl='#'+type.type+'Tmpl'/}}
-      {{/for}}
-    </div>
-  {{/for}}
+        <form:hidden path="data" name="data" id="data" />
+		<div id="dynamicFormResult"></div>
+	
+	</form:form>
+	
+<script id="dynamicFormTmpl" type="text/x-jsrender">
+	{{if show}}
+ 		<div name="{{:version}}" id="{{:version}}"> 
+  			{{for groups}}
+    			{{include tmpl='#'+type+'GroupTmpl'/}}
+  			{{/for}}
+  		<div>
+	{{/if}}
 </script>
 
+<script id="fieldsetGroupTmpl" type="text/x-jsrender">
+{{if show}}
+    <fieldset>{{if showName}}<legend>{{:name}}</legend>{{/if}}
+       
+            {{for groups}}
+               {{include tmpl='#'+type+'GroupTmpl'/}}
+            {{/for}}
+
+          {{for fields}}
+            {{include tmpl='#'+type.type+'Tmpl'/}}
+          {{/for}}
+    </fieldset>
+{{/if}}
+</script>
+
+<script id="divGroupTmpl" type="text/x-jsrender">
+{{if show}}
+    <div>{{if showName}}<h3>{{:name}}</h3>{{/if}}
+
+		 {{for groups}}
+               {{include tmpl='#'+type+'GroupTmpl'/}}
+            {{/for}}
+        
+          {{for fields}}
+            {{include tmpl='#'+type.type+'Tmpl'/}}
+          {{/for}}
+        
+    </div>
+{{/if}}
+</script>
 
 <script id="inputTmpl" type="text/x-jsrender">
-<label for="">{{:fname}}</label>
-<input type="{{:type.subtype}}" class="form-control" id="formGroupExampleInput2" placeholder="Another input" value="{{:fvalue}}">
+{{if show}}
+	{{if showLabel}}
+		<label>{{:name}}</label>
+	{{/if}}
+	{{if type.subtype == 'file'}}
+		<input type="{{:type.subtype}}" id="{{:name}}">
+	{{else}}
+		<input type="{{:type.subtype}}" id="{{:name}}" class="form-control" value="{{:value}}">
+	{{/if}}
+
+{{/if}}
 </script>
 
 <script id="buttonTmpl" type="text/x-jsrender">
-<button>{{:fname}}</button>
+{{if show}}
+	<button type="button" id="{{:name}}" name="button" >{{:name}}</button>
+{{/if}}
 </script>
 
+<script id="selectTmpl" type="text/x-jsrender">
+{{if show}}
+	{{if showLabel}}
+    	<label for="">{{:name}}</label>
+	{{/if}}
+    <select class="form-control" id="{{:name}}">
+        <option value=""> -- Selecione -- </option>
+        {{for options}}
+            {{include tmpl='#optionsTmpl'/}}
+        {{/for}}
+    </select>
+{{/if}}
+</script>
+
+<script id="optionsTmpl" type="text/x-jsrender">
+    <option value="{{:value}}">{{:option}}</option>
+</script>
+
+<script id="radioTmpl" type="text/x-jsrender">
+{{if show}}
+    <label for="">{{:label}}</label>
+    {{for options}}
+        <label class="form-control"><input type="radio" name="{{:name}}" id="{{:name}}" value="{{:value}}"/> {{:option}}</label>
+    {{/for}}
+{{/if}}
+</script>
+
+<script id="checkboxTmpl" type="text/x-jsrender">
+{{if show}}
+    <input type="{{:type.subtype}}" id="{{:name}}"  value="{{:value}}">
+    {{if showLabel}}<label for="">{{:label}}</label>{{/if}}
+{{/if}}
+</script>
+
+</tags:layout>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
-        integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
-        crossorigin="anonymous"></script>
-<script src="../js/dynamicform.js" /></script>
-</body>
-</html>
+<script src="<tags:static path="js/dynamicform-view-models-jsr.js" />"></script>
+<script src="<tags:static path="js/dynamicform.js" />"></script>

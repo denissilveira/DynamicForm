@@ -45,6 +45,14 @@ public class DynamicElement implements Serializable {
     private DynamicElement parent;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     private List<DynamicElement> elements;
+    @Column(name="MULTIPLE")
+    private boolean multiple;
+    @Column(name="NAME")
+    private String name;
+    @Column(name="SHOW")
+    private boolean show;
+    @Column(name="MAXELEMENTS")
+    private Long maxElements;
     
     public Long getId() {
         return id;
@@ -75,6 +83,30 @@ public class DynamicElement implements Serializable {
     }
     public void setElements(List<DynamicElement> elements) {
         this.elements = elements;
+    }
+    public boolean isMultiple() {
+        return multiple;
+    }
+    public void setMultiple(boolean multiple) {
+        this.multiple = multiple;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public boolean isShow() {
+        return show;
+    }
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+    public Long getMaxElements() {
+        return maxElements;
+    }
+    public void setMaxElements(Long maxElements) {
+        this.maxElements = maxElements;
     }
     
 }

@@ -20,10 +20,19 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class Element {
     
-    
+    private String name;
     protected Integer position;
+    private boolean multiple;
+    private boolean show;
     private List<Element> elements;
+    private Long maxElements;
     
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
     public Integer getPosition() {
         return position;
     }
@@ -35,6 +44,24 @@ public class Element {
     }
     public void setElements(List<Element> elements) {
         this.elements = elements;
+    }
+    public boolean isMultiple() {
+        return multiple;
+    }
+    public void setMultiple(boolean multiple) {
+        this.multiple = multiple;
+    }
+    public boolean isShow() {
+        return show;
+    }
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+    public Long getMaxElements() {
+        return maxElements;
+    }
+    public void setMaxElements(Long maxElements) {
+        this.maxElements = maxElements;
     }
 
 }

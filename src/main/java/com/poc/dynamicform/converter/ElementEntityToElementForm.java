@@ -17,6 +17,8 @@ public class ElementEntityToElementForm implements Converter<DynamicElement, Ele
         
         final Element element = new Element();
         element.setPosition(entity.getPosition());
+        element.setMultiple(entity.isMultiple());
+        element.setMaxElements(entity.getMaxElements());
         return element;
     }
 
